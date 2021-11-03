@@ -4,8 +4,12 @@ export default class SignUp extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      error: null,
-      passError: null
+      error: '',
+      passError: '',
+      firstName: '',
+      lastName: '',
+      email: '',
+      password: ''
     };
 
     this.submit = this.submit.bind(this);
@@ -14,12 +18,11 @@ export default class SignUp extends React.Component {
 
   submit(e) {
     e.preventDefault();
-    const form = document.forms[0];
     const data = {
-      firstName: form.firstName.value,
-      lastName: form.lastName.value,
-      email: form.email.value,
-      password: form.password.value
+      firstName: this.state.firstName,
+      lastName: this.state.lastName,
+      email: this.state.email,
+      password: this.state.password
     };
 
     for (const i in data) {
@@ -88,19 +91,19 @@ export default class SignUp extends React.Component {
             <label htmlFor='firstName' className="first-name-label sign-up-input">
               First Name
 
-              <input type="text" name="firstName" id="firstName" required onChange={this.handleChange}></input>
+              <input type="text" name="firstName" id="firstName" value={this.state.firstName} required onChange={this.handleChange}></input>
             </label>
             <label htmlFor='lastName' className="last-name-label sign-up-input">
               Last Name
-              <input type="text" name="lastName" id="lastName" required onChange={this.handleChange}></input>
+              <input type="text" name="lastName" id="lastName" value={this.state.lastName} required onChange={this.handleChange}></input>
             </label>
             <label htmlFor='email' className="email-label sign-up-input">
               Email
-              <input type="email" name="email" id="email" required onChange={this.handleChange}></input>
+              <input type="email" name="email" id="email" value={this.state.email} required onChange={this.handleChange}></input>
             </label>
             <label htmlFor='password' className="password-label sign-up-input">
               Password
-              <input type="password" name="password" id="password" required onChange={this.handleChange}></input>
+              <input type="password" name="password" id="password" value={this.state.password} required onChange={this.handleChange}></input>
             </label>
             {this.state.passError}
           </div>

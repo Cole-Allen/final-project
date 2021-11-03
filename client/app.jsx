@@ -14,10 +14,9 @@ export default class App extends React.Component {
   }
 
   componentDidMount() {
-    const thisBind = this;
 
-    window.addEventListener('hashchange', function (event) {
-      thisBind.setState({ route: parseRoute(window.location.hash) });
+    window.addEventListener('hashchange', event => {
+      this.setState({ route: parseRoute(window.location.hash) });
     });
   }
 
