@@ -12,9 +12,8 @@ CREATE TABLE "users" (
   "firstName" TEXT NOT NULL,
   "lastName" TEXT NOT NULL,
   "password" TEXT NOT NULL,
-  "email" TEXT NOT NULL,
+  "email" TEXT NOT NULL UNIQUE,
   "createdAt" TIMESTAMP NOT NULL DEFAULT NOW(),
-  "goalWeight" FLOAT NOT NULL,
   CONSTRAINT "users_pk" PRIMARY KEY ("userId")
 ) WITH (OIDS = FALSE);
 

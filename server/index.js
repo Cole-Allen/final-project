@@ -22,21 +22,21 @@ app.use(errorMiddleware);
 app.use(express.json());
 
 app.post('/api/auth/sign-up', (req, res, next) => {
-  const { email, firstName, lastName, password, goalWeight } = req.body;
+  const { email, firstName, lastName, password } = req.body;
   if (!password || !firstName || !lastName || !email) {
     throw new ClientError(400, 'All fields are required');
   }
 
   const sql = `
-  INSERT INTO "users" ("email", "firstName", "lastName", "password", "goalWeight")
-  VALUES ($1, $2, $3, $4, $5)
+  INSERT INTO "users" ("email", "firstName", "lastName", "password")
+  VALUES ($1, $2, $3, $4)
   returning "firstName";
   `;
 
   argon2
     .hash(password)
     .then(pass => {
-      const params = [email, firstName, lastName, pass, goalWeight];
+      const params = [email, firstName, lastName, pass];
       return db.query(sql, params)
         .then(result => {
           res.status(201).json({ result });

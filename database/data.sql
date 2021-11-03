@@ -4,14 +4,12 @@ INSERT into
     "firstName",
     "lastName",
     "password",
-    "email",
-    "goalWeight"
+    "email"
   )
   values
   (
     'Tom',
     'Bombadill',
     'needToHash',
-    'tombombadill@lotr.com',
-    '200'
+    'tombombadill@lotr.com'
   )
