@@ -1,0 +1,83 @@
+body {
+  color: white;
+  height: 100vh;
+  font-family: Comfortaa, sans-serif;
+  background-image: linear-gradient(rgb(112 112 255), rgb(69 187 255));
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+/* Sign-Up */
+
+form {
+  width: clamp(300px, 50%, 400px);
+}
+
+.sign-up-input input {
+  text-align: center;
+  flex-basis: 100%;
+  width: 100%;
+  padding: 5px;
+  border: none;
+  border: 1px solid white;
+  background: rgb(255 255 255 / 15%);
+  border-radius: 5px;
+  color: white;
+  font-size: 30px;
+  margin: 5px 0;
+  transition: background 0.15s;
+}
+
+.sign-up-input input:focus {
+  outline: none;
+  background: rgb(255 255 255 / 25%);
+}
+
+.sign-up-input {
+  margin: 10px 0;
+  width: 100%;
+}
+
+.sign-up {
+  flex-basis: 100%;
+  text-align: center;
+  margin: auto 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.sign-up-form-input {
+  flex-wrap: wrap;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#submit {
+  cursor: pointer;
+  font-family: Comfortaa, sans-serif;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 30px;
+  color: white;
+  font-weight: 600;
+  background: blue;
+  margin: 20px;
+}
+
+.greyed-out {
+  pointer-events: none;
+  background: rgb(82 82 129) !important;
+}
+
+a:visited {
+  color: white;
+}
+
+.error {
+  color: rgb(255 0 0);
+  background: rgb(255 255 255 / 50%);
+  padding: 5px 15px;
+  border-radius: 5px;
+}
