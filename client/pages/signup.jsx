@@ -1,4 +1,6 @@
 import React from 'react';
+import AppContext from '../lib/app-context';
+import Redirect from '../lib/redirect';
 
 export default class SignUp extends React.Component {
   constructor(props) {
@@ -80,35 +82,85 @@ export default class SignUp extends React.Component {
   }
 
   render() {
+    const { user } = this.context;
+
+    if (user) {
+      return <Redirect to="#home" />;
+    }
+
     return (
-      <div className="sign-up">
+      <div className="login-signup">
         <h1>Sign-Up</h1>
         <div>
           {this.state.error}
         </div>
         <form action="" method="post">
-          <div className="sign-up-form-input">
-            <label htmlFor='firstName' className="first-name-label sign-up-input">
-              First Name
+          <div className="auth-form-inputs">
+            <div className="name-inputs">
+              <label
+                htmlFor='firstName'
+                className="first-name-label auth-label">
+                First Name
 
-              <input type="text" name="firstName" id="firstName" value={this.state.firstName} required onChange={this.handleChange}></input>
-            </label>
-            <label htmlFor='lastName' className="last-name-label sign-up-input">
-              Last Name
-              <input type="text" name="lastName" id="lastName" value={this.state.lastName} required onChange={this.handleChange}></input>
-            </label>
-            <label htmlFor='email' className="email-label sign-up-input">
+                <input
+                  className="auth-input"
+                  type="text"
+                  name="firstName"
+                  id="firstName"
+                  value={this.state.firstName}
+                  required
+                  onChange={this.handleChange}></input>
+              </label>
+              <label
+                htmlFor='lastName'
+                className="last-name-label auth-label">
+                Last Name
+                <input
+                  className="auth-input"
+                  type="text"
+                  name="lastName"
+                  id="lastName"
+                  value={this.state.lastName}
+                  required
+                  onChange={this.handleChange}></input>
+              </label>
+            </div>
+
+            <label
+            htmlFor='email'
+            className="email-label auth-label">
               Email
-              <input type="email" name="email" id="email" value={this.state.email} required onChange={this.handleChange}></input>
+              <input
+              className="auth-input"
+              type="email"
+              name="email"
+              id="email"
+              value={this.state.email}
+              required
+              onChange={this.handleChange}></input>
             </label>
-            <label htmlFor='password' className="password-label sign-up-input">
+            <label
+            htmlFor='password'
+            className="password-label auth-label">
               Password
-              <input type="password" name="password" id="password" value={this.state.password} required onChange={this.handleChange}></input>
+              <input
+              className="auth-input"
+              type="password"
+              name="password"
+              id="password"
+              value={this.state.password}
+              required
+              onChange={this.handleChange}></input>
             </label>
             {this.state.passError}
           </div>
           <div>
-            <button id="submit" onClick={this.submit} type="submit" value="Sign-Up">Sign-Up</button>
+            <button
+            id="submit"
+            className="auth-submit"
+            onClick={this.submit}
+            type="submit"
+            value="Sign-Up">Sign-Up</button>
           </div>
 
         </form>
@@ -117,3 +169,5 @@ export default class SignUp extends React.Component {
     );
   }
 }
+
+SignUp.contextType = AppContext;
