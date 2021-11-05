@@ -17,6 +17,18 @@ CREATE TABLE "users" (
   CONSTRAINT "users_pk" PRIMARY KEY ("userId")
 ) WITH (OIDS = FALSE);
 
+CREATE TABLE "userData" (
+  "dataId" integer,
+  "userId" integer,
+  CONSTRAINT "userData_pk" PRIMARY KEY ("dataId", "userId")
+) WITH (OIDS = FALSE);
+
+CREATE TABLE "data" (
+  "dataId" serial NOT NULL,
+  "goalWeight" integer,
+  CONSTRAINT "data_pk" PRIMARY KEY ("dataId")
+) WITH (OIDS = FALSE);
+
 CREATE TABLE "playlists" (
   "userId" integer NOT NULL,
   "name" TEXT NOT NULL,
