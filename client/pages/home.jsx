@@ -3,17 +3,45 @@ import AppContext from '../lib/app-context';
 import decodeToken from '../lib/decode-token';
 import Redirect from '../lib/redirect';
 import Pane from '../component/pane';
+import Graph from '../component/graph';
 
 const welcomePane = {
   title: `${new Intl.DateTimeFormat('en-US', { weekday: 'long' }).format(new Date().getDay())} ${new Date().getDate()}`,
   body: 'Hello! This is an empty pane that will be used to quickly get to a workout!'
 };
 
-export default class Home extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
+const data = [
+  {
+    date: '1',
+    weight: 200
+  },
+  {
+    date: '2',
+    weight: 198.1
+  },
+  {
+    date: '3',
+    weight: 200
+  },
+  {
+    date: '4',
+    weight: 198
+  },
+  {
+    date: '5',
+    weight: 204
+  },
+  {
+    date: '6',
+    weight: 192
+  },
+  {
+    date: '7',
+    weight: 190
   }
+];
+
+export default class Home extends React.Component {
 
   componentDidMount() {
     // Fetch user data here
@@ -32,12 +60,24 @@ export default class Home extends React.Component {
           <img src="./images/smallerprofile.png"/>
         </div>
         <h2 className="home-greeting">Hello, {token.firstName}!</h2>
-        <Pane title={welcomePane.title} body={welcomePane.body} />
+        <Pane title={welcomePane.title}>
+          <div className="pane-body">
+            {welcomePane.body}
+          </div>
+        </Pane>
         <div className="widgets">
-          <Pane title="Weight" type="chart" history="" />
-          <Pane title="Weight" type="chart" history="" />
-          <Pane title="Weight" type="chart" history="" />
-          <Pane title="Weight" type="chart" history="" />
+          <Pane title="Weight" history="">
+            <Graph data={data}/>
+          </Pane>
+          <Pane title="Weight" history="">
+            <Graph data={data} />
+          </Pane>
+          <Pane title="Weight" history="">
+            <Graph data={data} />
+          </Pane>
+          <Pane title="Weight" history="">
+            <Graph data={data} />
+          </Pane>
         </div>
         <div className="logout">
           <a href="#login" onClick={this.props.onSignOut}>Log Out</a>
