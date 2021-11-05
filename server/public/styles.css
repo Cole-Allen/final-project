@@ -1,13 +1,23 @@
-body {
-  color: white;
-  height: 100vh;
-  font-family: Comfortaa, sans-serif;
-  background-image: linear-gradient(rgb(112 112 255), rgb(69 187 255));
-  background-size: cover;
-  background-repeat: no-repeat;
+html {
+  height: 100%;
 }
 
-/* Sign-Up */
+body {
+  height: 100%;
+  background-image: linear-gradient(rgb(112 112 255), rgb(69 187 255));
+  background-repeat: no-repeat;
+  color: white;
+  font-family: Comfortaa, sans-serif;
+  background-attachment: fixed;
+}
+
+img {
+  display: block;
+  width: 100%;
+  object-fit: cover;
+}
+
+/* Sign-Up and Login */
 
 form {
   width: clamp(300px, 50%, 400px);
@@ -80,6 +90,10 @@ form {
   background: rgb(82 82 129) !important;
 }
 
+a {
+  color: white;
+}
+
 a:visited {
   color: white;
 }
@@ -89,4 +103,80 @@ a:visited {
   background: rgb(255 255 255 / 50%);
   padding: 5px 15px;
   border-radius: 5px;
+}
+
+/* pane */
+
+.pane {
+  margin: 10px;
+  padding: 0 10px;
+  padding-top: 5px;
+  background: rgb(255 255 255 / 17.8%);
+  border: 1px solid white;
+  border-radius: 5px;
+  width: 100%;
+  max-width: 500px;
+}
+
+.pane-title {
+  display: flex;
+  justify-content: space-between;
+  padding: 15px 20px;
+  border-bottom: 1px solid white;
+}
+
+.pane-body {
+  padding: 20px;
+}
+
+.chart {
+  padding: 2px;
+}
+
+.chart tspan {
+  font-size: 10pt;
+}
+
+.schedule-icon {
+  margin-right: 20px;
+}
+
+/* home */
+
+.home {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.home-title,
+.home-greeting,
+.logout {
+  text-align: center;
+  flex-basis: 100%;
+}
+
+.home-profile-image {
+  width: 25%;
+  aspect-ratio: 1/1;
+  overflow: hidden;
+  border-radius: 5px;
+  margin-bottom: 30px;
+  border: 1px solid white;
+}
+
+.home-greeting {
+  margin-top: 0;
+}
+
+.logout {
+  padding: 20px;
+}
+
+.widgets {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  flex-basis: 100%;
 }
