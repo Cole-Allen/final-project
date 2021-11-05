@@ -45,14 +45,14 @@ export default class Pane extends React.Component {
       if (data) {
         body = <Graph data={data} />;
       } else {
-        body = <div className="chart">
+        body = <div className="pane-body">
           No data found!
         </div>;
       }
 
     } else {
       body =
-      <div className="chart">
+      <div className="pane-body">
         {this.props.body}
       </div>;
     }
@@ -60,9 +60,15 @@ export default class Pane extends React.Component {
       <div className="pane">
         <div className="pane-title">
           {this.props.title}
-          <a href="#settings">
-          <i className="fas fa-cog"></i>
-          </a>
+          <div className="icons">
+            <a className="schedule-icon" href="#schedule">
+              <i className="fas fa-calendar-alt"></i>
+            </a>
+            <a href="#settings">
+              <i className="fas fa-cog"></i>
+            </a>
+          </div>
+
         </div>
         {body}
       </div>

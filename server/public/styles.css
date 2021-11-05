@@ -1,13 +1,20 @@
 html {
-  background-image: linear-gradient(rgb(112 112 255), rgb(69 187 255));
-  background-size: cover;
-  background-repeat: no-repeat;
   height: 100%;
 }
 
 body {
+  height: 100%;
+  background-image: linear-gradient(rgb(112 112 255), rgb(69 187 255));
+  background-repeat: no-repeat;
   color: white;
   font-family: Comfortaa, sans-serif;
+  background-attachment: fixed;
+}
+
+img {
+  display: block;
+  width: 100%;
+  object-fit: cover;
 }
 
 /* Sign-Up and Login */
@@ -102,13 +109,13 @@ a:visited {
 
 .pane {
   margin: 10px;
-  padding: 10px;
+  padding: 0 10px;
+  padding-top: 5px;
   background: rgb(255 255 255 / 17.8%);
   border: 1px solid white;
   border-radius: 5px;
   width: 100%;
   max-width: 500px;
-  height: 100%;
 }
 
 .pane-title {
@@ -118,12 +125,20 @@ a:visited {
   border-bottom: 1px solid white;
 }
 
-.chart {
+.pane-body {
   padding: 20px;
+}
+
+.chart {
+  padding: 2px;
 }
 
 .chart tspan {
   font-size: 10pt;
+}
+
+.schedule-icon {
+  margin-right: 20px;
 }
 
 /* home */
@@ -141,10 +156,27 @@ a:visited {
   flex-basis: 100%;
 }
 
+.home-profile-image {
+  width: 25%;
+  aspect-ratio: 1/1;
+  overflow: hidden;
+  border-radius: 5px;
+  margin-bottom: 30px;
+  border: 1px solid white;
+}
+
 .home-greeting {
   margin-top: 0;
 }
 
 .logout {
   padding: 20px;
+}
+
+.widgets {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  flex-basis: 100%;
 }
