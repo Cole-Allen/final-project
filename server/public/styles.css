@@ -162,6 +162,7 @@ a:visited {
 
 .home-profile-image {
   width: 25%;
+  max-width: 300px;
   aspect-ratio: 1/1;
   overflow: hidden;
   border-radius: 5px;
@@ -217,7 +218,7 @@ a:visited {
 .create-a-playlist {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
+  justify-content: space-between;
   text-align: center;
 }
 
@@ -233,6 +234,15 @@ a:visited {
   display: flex;
   flex-direction: column;
   align-items: center;
+  transition: transform 0.5s;
+}
+
+.playlist-left {
+  margin-left: auto;
+}
+
+.playlist-right {
+  margin-right: auto;
 }
 
 .playlist-image {
@@ -260,4 +270,24 @@ a:visited {
 
 .playlist-exercise {
   width: 90%;
+}
+
+.scooch {
+  transform: translateX(-50%);
+  transition: transform 0.5s;
+}
+
+.add-panel {
+  background: rgb(255 255 255 / 25%);
+  width: 25%;
+  transition: transform 0.5s;
+  position: absolute;
+  right: 0;
+  border-radius: 5px 0 0 5px;
+}
+
+.hidden {
+  pointer-events: none;
+  transform: translateX(100%);
+  transition: transform 0.5s;
 }

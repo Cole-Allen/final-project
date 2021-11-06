@@ -8,7 +8,7 @@ export default class Panel extends React.Component {
   }
 
   handleClick() {
-    this.props.onClick();
+    if (this.props.onClick) { this.props.onClick(); }
   }
 
   render() {

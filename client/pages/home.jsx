@@ -63,8 +63,8 @@ export default class Home extends React.Component {
         <h2 className="home-greeting">Hello, {token.firstName}!</h2>
         <Pane title={welcomePane.title}>
           <div>
-            <Panel>
-              No playlist set. Make one now?
+            <Panel title="No playlist set. Make one now?">
+
             </Panel>
           </div>
         </Pane>
