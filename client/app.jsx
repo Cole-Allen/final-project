@@ -6,6 +6,7 @@ import NotFound from './pages/not-found';
 import parseRoute from './lib/parse-route';
 import AppContext from './lib/app-context';
 import decodeToken from './lib/decode-token';
+import CreatePlaylist from './pages/create-playlist';
 
 export default class App extends React.Component {
   constructor(props) {
@@ -48,6 +49,8 @@ export default class App extends React.Component {
       return <Login onSignIn={this.handleSignIn} />;
     } else if (path === 'signup') {
       return <SignUp />;
+    } else if (path === 'createplaylist') {
+      return <CreatePlaylist/>;
     }
     return <NotFound />;
   }

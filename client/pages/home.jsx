@@ -4,10 +4,11 @@ import decodeToken from '../lib/decode-token';
 import Redirect from '../lib/redirect';
 import Pane from '../component/pane';
 import Graph from '../component/graph';
+import Panel from '../component/panel';
 
 const welcomePane = {
   title: `${new Intl.DateTimeFormat('en-US', { weekday: 'long' }).format(new Date().getDay())} ${new Date().getDate()}`,
-  body: 'Hello! This is an empty pane that will be used to quickly get to a workout!'
+  body: 'No workout scheduled! Add one now >'
 };
 
 const data = [
@@ -61,8 +62,10 @@ export default class Home extends React.Component {
         </div>
         <h2 className="home-greeting">Hello, {token.firstName}!</h2>
         <Pane title={welcomePane.title}>
-          <div className="pane-body">
-            {welcomePane.body}
+          <div>
+            <Panel>
+              No playlist set. Make one now?
+            </Panel>
           </div>
         </Pane>
         <div className="widgets">

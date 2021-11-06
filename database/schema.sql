@@ -32,7 +32,6 @@ CREATE TABLE "data" (
 CREATE TABLE "playlists" (
   "userId" integer NOT NULL,
   "name" TEXT NOT NULL,
-  "image" TEXT,
   "spotify" TEXT,
   "playlistId" serial NOT NULL,
   CONSTRAINT "playlists_pk" PRIMARY KEY ("playlistId")
