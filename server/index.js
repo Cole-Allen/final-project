@@ -85,6 +85,58 @@ app.post('/api/auth/sign-in', (req, res, next) => {
     .catch(err => next(err));
 });
 
+app.get('/api/:userid/weight', (req, res, next) => {
+  const sql = `
+  SELECT *
+  FROM "history"
+  WHERE "userId" = $1;
+  `;
+
+  const params = [req.params.userid];
+
+  db.query(sql, params)
+    .then(result => {
+      res.status(201).json(result.rows);
+    });
+
+});
+
+app.post('/api/:userid/weight', (req, res, next) => {
+  const { weight } = req.body;
+  const sql = `
+    INSERT INTO
+      "history" ("weight", "userId")
+    VALUES
+      ($1, $2)
+    RETURNING *;
+  `;
+
+  const params = [weight, req.params.userid];
+
+  db.query(sql, params)
+    .then(res => {
+    }
+    );
+});
+
+app.put('/api/weight/:id', (req, res, next) => {
+
+  const { weight } = req.body;
+
+  const sql = `
+    UPDATE "history"
+    SET
+      "weight" = $1
+    WHERE
+      "historyId" = $2
+  `;
+  const params = [weight, req.params.id];
+
+  db.query(sql, params)
+    .then(result => res.status(333));
+
+});
+
 app.listen(process.env.PORT, () => {
   // eslint-disable-next-line no-console
   console.log(`express server listening on port ${process.env.PORT}`);

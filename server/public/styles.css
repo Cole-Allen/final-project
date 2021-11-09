@@ -17,6 +17,10 @@ img {
   object-fit: cover;
 }
 
+input {
+  font-family: Comfortaa, sans-serif;
+}
+
 /* Sign-Up and Login */
 
 form {
@@ -108,14 +112,12 @@ a:visited {
 /* pane */
 
 .pane {
-  margin: 10px;
   padding: 0 10px;
   padding-top: 5px;
   background: rgb(255 255 255 / 17.8%);
   border: 1px solid white;
   border-radius: 5px;
   width: 100%;
-  max-width: 500px;
 }
 
 .pane-title {
@@ -123,10 +125,11 @@ a:visited {
   justify-content: space-between;
   padding: 15px 20px;
   border-bottom: 1px solid white;
+  align-items: center;
 }
 
 .pane-body {
-  padding: 20px;
+  padding: 10px 0;
 }
 
 .chart {
@@ -144,9 +147,19 @@ a:visited {
 /* home */
 
 .home {
+  margin: 0 auto;
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
+}
+
+.home-head {
+  flex-basis: auto;
+  width: clamp(300px, 100%, 500px);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-content: flex-start;
 }
 
 .home-title,
@@ -158,6 +171,7 @@ a:visited {
 
 .home-profile-image {
   width: 25%;
+  max-width: 300px;
   aspect-ratio: 1/1;
   overflow: hidden;
   border-radius: 5px;
@@ -169,14 +183,60 @@ a:visited {
   margin-top: 0;
 }
 
+.home-welcome-pane {
+  margin: 0 10px;
+}
+
 .logout {
   padding: 20px;
 }
 
 .widgets {
-  width: 100%;
+  margin: 0 10px;
+  margin-top: 40px;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   flex-basis: 100%;
+}
+
+.weight-form {
+  display: flex;
+  align-items: center;
+}
+
+.weight-input {
+  padding: 3px;
+  color: white;
+  background: none;
+  border: 1px solid white;
+  border-radius: 5px;
+  width: 75px;
+}
+
+.weight-input:focus {
+  outline: none;
+}
+
+.weight-button {
+  cursor: pointer;
+  color: white;
+  background: none;
+  border: none;
+  font-size: 20px;
+  margin-left: 10px;
+}
+
+@media screen and (min-width: 768px) {
+  .home {
+    justify-content: space-evenly;
+  }
+
+  .widgets {
+    flex-basis: 50%;
+  }
+
+  .widgets > .pane {
+    flex-basis: 100%;
+  }
 }
