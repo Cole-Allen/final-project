@@ -63,9 +63,6 @@ export default class Home extends React.Component {
 
   componentDidMount() {
     this.loadData();
-    this.setState({
-      loading: false
-    });
   }
 
   loadData() {
@@ -82,7 +79,8 @@ export default class Home extends React.Component {
         if (dayData) {
           this.setState({
             weight: dayData.weight,
-            dayId: dayData.historyId
+            dayId: dayData.historyId,
+            loading: false
           });
         } else {
           this.setState({
