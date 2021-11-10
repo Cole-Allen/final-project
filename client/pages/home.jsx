@@ -234,6 +234,10 @@ export default class Home extends React.Component {
     return (
       <div className="home">
         <h1 className="home-title">Home</h1>
+        <div className="nav-bar">
+        <a href="#routines">Routines</a>
+        </div>
+
         {error}
         <div className="home-head">
           <div className="home-profile-image">

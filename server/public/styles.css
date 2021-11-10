@@ -286,3 +286,63 @@ tbody tr:hover {
 .week-body .pane {
   margin: 20px 0;
 }
+
+.nav-bar {
+  flex-basis: 100%;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.nav-bar a {
+  background: rgb(255 255 255 / 17.8%);
+  border: 1px solid white;
+  border-radius: 5px;
+  padding: 10px;
+  text-decoration: none;
+}
+
+.routines {
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: center;
+  align-items: center;
+}
+
+.routine-title {
+  display: flex;
+  align-items: center;
+  text-align: center;
+}
+
+.routine-title a {
+  position: absolute;
+  left: 0;
+}
+
+.routine-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+  background: rgb(255 255 255 / 17.8%);
+  border: 1px solid white;
+  padding: 5px;
+  border-radius: 5px;
+}
+
+.routine-item:hover {
+  cursor: pointer;
+  background: rgb(255 255 255 / 28.8%);
+}
+
+.routine-item-img {
+  max-width: 80px;
+  max-height: 80px;
+  border: 1px solid white;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.routine-item-text {
+  padding: 20px;
+}
