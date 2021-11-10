@@ -89,7 +89,8 @@ app.get('/api/:userid/weight', (req, res, next) => {
   const sql = `
   SELECT *
   FROM "history"
-  WHERE "userId" = $1;
+  WHERE "userId" = $1
+  ORDER BY "date" DESC;
   `;
 
   const params = [req.params.userid];
@@ -102,35 +103,37 @@ app.get('/api/:userid/weight', (req, res, next) => {
 });
 
 app.post('/api/:userid/weight', (req, res, next) => {
-  const { weight } = req.body;
+  const { weight, date } = req.body;
   const sql = `
     INSERT INTO
-      "history" ("weight", "userId")
+      "history" ("weight","date", "userId")
     VALUES
-      ($1, $2)
+      ($1, $2, $3)
     RETURNING *;
   `;
 
-  const params = [weight, req.params.userid];
+  const params = [weight, date, req.params.userid];
 
   db.query(sql, params)
-    .then(res => {
+    .then(result => {
+      res.status(200).json({ completed: 'yay' });
     }
     );
 });
 
 app.put('/api/weight/:id', (req, res, next) => {
 
-  const { weight } = req.body;
+  const { weight, date } = req.body;
 
   const sql = `
     UPDATE "history"
     SET
-      "weight" = $1
+      "weight" = $1,
+      "date" = $2
     WHERE
-      "historyId" = $2
+      "historyId" = $3
   `;
-  const params = [weight, req.params.id];
+  const params = [weight, date, req.params.id];
 
   db.query(sql, params)
     .then(result => res.status(333));

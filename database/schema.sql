@@ -51,7 +51,8 @@ CREATE TABLE "exercises" (
 CREATE TABLE "history" (
   "historyId" serial NOT NULL,
   "userId" integer NOT NULL,
-  "date" TIMESTAMP NOT NULL DEFAULT NOW(),
+  "date" TEXT NOT NULL,
+  "createdAt" TIMESTAMP NOT NULL DEFAULT NOW(),
   "weight" FLOAT NOT NULL,
   CONSTRAINT "history_pk" PRIMARY KEY ("historyId")
 ) WITH (OIDS = FALSE);

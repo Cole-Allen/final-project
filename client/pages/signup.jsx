@@ -57,7 +57,7 @@ export default class SignUp extends React.Component {
             });
           }
         } else {
-          window.location.hash = 'home';
+          window.location.hash = 'login';
         }
         return res.json();
       });

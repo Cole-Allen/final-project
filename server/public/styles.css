@@ -200,18 +200,38 @@ a:visited {
   flex-basis: 100%;
 }
 
+.weight-table {
+  width: 100%;
+  margin: 0 auto;
+  table-layout: fixed;
+  border-collapse: collapse;
+  text-align: center;
+}
+
 .weight-form {
   display: flex;
   align-items: center;
 }
 
+th,
+td {
+  padding: 10px;
+  border-bottom: 1px solid white;
+}
+
+tbody tr:hover {
+  cursor: pointer;
+  background: rgb(255 255 255 / 26%);
+}
+
 .weight-input {
+  font-size: 20px;
   padding: 3px;
   color: white;
   background: none;
   border: 1px solid white;
   border-radius: 5px;
-  width: 75px;
+  text-align: center;
 }
 
 .weight-input:focus {
@@ -224,7 +244,6 @@ a:visited {
   background: none;
   border: none;
   font-size: 20px;
-  margin-left: 10px;
 }
 
 @media screen and (min-width: 768px) {
