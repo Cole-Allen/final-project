@@ -259,3 +259,30 @@ tbody tr:hover {
     flex-basis: 100%;
   }
 }
+
+/* week */
+
+.week-head {
+  display: flex;
+  text-align: center;
+  align-items: center;
+}
+
+.week-title {
+  flex-grow: 1;
+}
+
+.back-button {
+  float: left;
+  font-size: 40px;
+  margin: 20px;
+}
+
+.week-body {
+  padding: 20px;
+  text-align: center;
+}
+
+.week-body .pane {
+  margin: 20px 0;
+}

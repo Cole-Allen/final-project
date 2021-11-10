@@ -241,7 +241,7 @@ export default class Home extends React.Component {
           </div>
           <h2 className="home-greeting">Hello, {this.context.user.firstName}!</h2>
           <div className="home-welcome-pane">
-            <Pane title={welcomePane.title} settings="#calender">
+            <Pane title={welcomePane.title} settings="#week">
               <div className="pane-body">
                 {welcomePane.body}
               </div>

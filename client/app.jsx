@@ -2,6 +2,7 @@ import React from 'react';
 import Login from './pages/login';
 import SignUp from './pages/signup';
 import Home from './pages/home';
+import Week from './pages/week';
 import NotFound from './pages/not-found';
 import parseRoute from './lib/parse-route';
 import AppContext from './lib/app-context';
@@ -48,6 +49,8 @@ export default class App extends React.Component {
       return <Login onSignIn={this.handleSignIn} />;
     } else if (path === 'signup') {
       return <SignUp />;
+    } else if (path === 'week') {
+      return <Week/>;
     }
     return <NotFound />;
   }
