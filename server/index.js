@@ -140,6 +140,18 @@ app.put('/api/weight/:id', (req, res, next) => {
 
 });
 
+app.delete('/api/weight/:id', (req, res, next) => {
+  const sql = `
+  DELETE from "history"
+  WHERE "historyId" = $1;
+  `;
+
+  const params = [req.params.id];
+
+  db.query(sql, params)
+    .then(result => res.status(200).json({ test: 'test' }));
+});
+
 app.listen(process.env.PORT, () => {
   // eslint-disable-next-line no-console
   console.log(`express server listening on port ${process.env.PORT}`);

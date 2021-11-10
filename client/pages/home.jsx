@@ -22,6 +22,7 @@ export default class Home extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleClick = this.handleClick.bind(this);
     this.handleClickTR = this.handleClickTR.bind(this);
+    this.handleDelete = this.handleDelete.bind(this);
     this.loadData = this.loadData.bind(this);
   }
 
@@ -57,6 +58,20 @@ export default class Home extends React.Component {
     this.setState({
       date: e.target.value
     });
+  }
+
+  handleDelete() {
+    fetch(`/api/weight/${this.state.editingId}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(this.state)
+    })
+      .then(res => {
+        this.loadData();
+      });
+
   }
 
   handleClick(e) {
@@ -190,6 +205,10 @@ export default class Home extends React.Component {
               <button className="weight-button"
               onClick={this.handleSubmit} >
                 <i className="fas fa-save"></i>
+              </button >
+              <button className="weight-button"
+                onClick={this.handleDelete} >
+                <i className="fas fa-trash-alt"></i>
               </button ></td>
           </tr>
         );
