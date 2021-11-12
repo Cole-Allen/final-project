@@ -60,7 +60,7 @@ export default class Routines extends React.Component {
 
     for (const i in this.state.data) {
       list.push(
-        <div className="routines-item" key={i} data-key={i} onClick={this.handleClick}>
+        <div className="routines-item" key={i} data-key={this.state.data[i].playlistId} onClick={this.handleClick}>
           <div className="routines-item-img">
             <img src='./images/smallerprofile.png'/>
           </div>

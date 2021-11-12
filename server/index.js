@@ -187,6 +187,19 @@ app.put('/api/:userid/routines', (req, res, next) => {
 
 });
 
+app.get('/api/routine/:id', (req, res, next) => {
+  const sql = `
+    SELECT *
+    FROM "playlists"
+    WHERE "playlistId" = $1;
+  `;
+
+  const params = [req.params.id];
+
+  db.query(sql, params)
+    .then(result => res.status(200).json(result.rows));
+});
+
 app.listen(process.env.PORT, () => {
   // eslint-disable-next-line no-console
   console.log(`express server listening on port ${process.env.PORT}`);
