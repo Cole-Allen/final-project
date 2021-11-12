@@ -31,10 +31,10 @@ export default class Home extends React.Component {
   }
 
   loadData() {
-    if (!this.context.user.userId) {
+    if (!window.localStorage.getItem('jwt')) {
       return;
     }
-    fetch(`/api/${this.context.user.userId}/weight`)
+    fetch(`/api/${window.localStorage.getItem('jwt')}/weight`)
       .then(res => res.json())
       .then(data => {
         if (data) {
@@ -81,7 +81,7 @@ export default class Home extends React.Component {
       date: `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`,
       weight: 0
     };
-    fetch(`/api/${this.context.user.userId}/weight`, {
+    fetch(`/api/${window.localStorage.getItem('jwt')}/weight`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -135,7 +135,7 @@ export default class Home extends React.Component {
         });
 
     } else {
-      fetch(`/api/${this.context.user.userId}/weight`, {
+      fetch(`/api/${window.localStorage.getItem('jwt')}/weight`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -160,7 +160,7 @@ export default class Home extends React.Component {
   }
 
   render() {
-    if (!this.context.user) {
+    if (!window.localStorage.getItem('jwt')) {
       return <Redirect to="#login" />;
     }
 
@@ -192,24 +192,24 @@ export default class Home extends React.Component {
             weight={this.state.weight}
             date={this.state.date}
             onClick={this.handleClickTR}>
-            <td><input
-            className="weight-input"
-            type="date"
-            value={this.state.date}
-            onChange={this.handleDateChange}></input></td>
-            <td><input
-            className="weight-input"
-            type="number"
-            value={this.state.weight}
-            onChange={this.handleWeightChange}></input>
+            <td><div><input
+              className="weight-input"
+              type="date"
+              value={this.state.date}
+              onChange={this.handleDateChange}></input></div></td>
+            <td><div><input
+              className="weight-input"
+              type="number"
+              value={this.state.weight}
+              onChange={this.handleWeightChange}></input>
               <button className="weight-button"
-              onClick={this.handleSubmit} >
+                onClick={this.handleSubmit} >
                 <i className="fas fa-save"></i>
               </button >
               <button className="weight-button"
                 onClick={this.handleDelete} >
                 <i className="fas fa-trash-alt"></i>
-              </button ></td>
+              </button ></div></td>
           </tr>
         );
       } else {

@@ -219,6 +219,15 @@ td {
   border-bottom: 1px solid white;
 }
 
+td div {
+  display: flex;
+}
+
+td input {
+  margin: 0 auto;
+  display: inline;
+}
+
 tbody tr:hover {
   cursor: pointer;
   background: rgb(255 255 255 / 26%);
@@ -246,7 +255,7 @@ tbody tr:hover {
   font-size: 20px;
 }
 
-@media screen and (min-width: 768px) {
+/* @media screen and (min-width: 768px) {
   .home {
     justify-content: space-evenly;
   }
@@ -258,7 +267,7 @@ tbody tr:hover {
   .widgets > .pane {
     flex-basis: 100%;
   }
-}
+} */
 
 /* week */
 
@@ -270,12 +279,6 @@ tbody tr:hover {
 
 .week-title {
   flex-grow: 1;
-}
-
-.back-button {
-  float: left;
-  font-size: 40px;
-  margin: 20px;
 }
 
 .week-body {
@@ -309,18 +312,31 @@ tbody tr:hover {
   align-items: center;
 }
 
-.routine-title {
+.routines-title {
   display: flex;
   align-items: center;
   text-align: center;
 }
 
-.routine-title a {
+.routines-title a {
   position: absolute;
   left: 0;
 }
 
-.routine-item {
+.routines-list {
+  width: 400px;
+}
+
+.routines-add-button {
+  text-align: center;
+  padding: 20px;
+  border-radius: 5px;
+  border: 1px solid white;
+  background: rgb(255 255 255 / 17.8%);
+  width: 100%;
+}
+
+.routines-item {
   display: flex;
   align-items: center;
   margin-bottom: 20px;
@@ -330,12 +346,13 @@ tbody tr:hover {
   border-radius: 5px;
 }
 
-.routine-item:hover {
+.routines-item:hover,
+.routines-add-button:hover {
   cursor: pointer;
   background: rgb(255 255 255 / 28.8%);
 }
 
-.routine-item-img {
+.routines-item-img {
   max-width: 80px;
   max-height: 80px;
   border: 1px solid white;
@@ -343,6 +360,57 @@ tbody tr:hover {
   overflow: hidden;
 }
 
-.routine-item-text {
+.routines-item-text {
   padding: 20px;
+}
+
+.back-button {
+  font-size: 40px;
+  margin: 20px;
+  position: absolute;
+  left: 0;
+}
+
+.routine {
+  display: flex;
+  flex-flow: column wrap;
+  align-items: center;
+  justify-content: center;
+}
+
+.routine-head {
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.routine-img {
+  margin: 40px;
+  max-width: 250px;
+  max-height: 250px;
+  overflow: hidden;
+  border-radius: 5px;
+  border: 1px solid white;
+}
+
+.routine-name input {
+  font-size: 40px;
+  padding: 8px;
+  color: white;
+  background: none;
+  border: 1px solid transparent;
+  border-bottom: 1px solid white;
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.routine-name input:focus {
+  outline: none;
+  border: 1px solid white;
+  border-radius: 5px;
+}
+
+.routine-spotify {
+  width: 60%;
 }

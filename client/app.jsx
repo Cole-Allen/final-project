@@ -4,6 +4,7 @@ import SignUp from './pages/signup';
 import Home from './pages/home';
 import Week from './pages/week';
 import Routines from './pages/routines';
+import Routine from './pages/routine';
 import NotFound from './pages/not-found';
 import parseRoute from './lib/parse-route';
 import AppContext from './lib/app-context';
@@ -43,6 +44,7 @@ export default class App extends React.Component {
   }
 
   renderPage() {
+
     const { path } = this.state.route;
 
     switch (path) {
@@ -56,6 +58,8 @@ export default class App extends React.Component {
         return <Week />;
       case 'routines':
         return <Routines/>;
+      case 'routine' :
+        return <Routine/>;
       default:
         return <NotFound />;
     }

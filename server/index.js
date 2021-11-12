@@ -22,6 +22,12 @@ app.use(errorMiddleware);
 
 app.use(express.json());
 
+app.use('/api/:usertoken', function (req, res, next) {
+  const payload = jwt.decode(req.params.usertoken);
+  req.payload = (payload);
+  next();
+});
+
 app.post('/api/auth/sign-up', (req, res, next) => {
   const { email, firstName, lastName, password } = req.body;
   if (!password || !firstName || !lastName || !email) {
@@ -93,7 +99,7 @@ app.get('/api/:userid/weight', (req, res, next) => {
   ORDER BY "date" DESC;
   `;
 
-  const params = [req.params.userid];
+  const params = [req.payload.userId];
 
   db.query(sql, params)
     .then(result => {
@@ -112,7 +118,7 @@ app.post('/api/:userid/weight', (req, res, next) => {
     RETURNING *;
   `;
 
-  const params = [weight, date, req.params.userid];
+  const params = [weight, date, req.payload.userId];
 
   db.query(sql, params)
     .then(result => {
@@ -150,6 +156,48 @@ app.delete('/api/weight/:id', (req, res, next) => {
 
   db.query(sql, params)
     .then(result => res.status(200).json({ test: 'test' }));
+});
+
+app.get('/api/:userid/routines', (req, res, next) => {
+  const sql = `
+    SELECT *
+    FROM "playlists"
+    WHERE "userId" = $1;
+  `;
+
+  const params = [req.payload.userId];
+
+  db.query(sql, params)
+    .then(result => res.status(201).json(result.rows))
+    .catch(err => console.error(err));
+});
+
+app.put('/api/:userid/routines', (req, res, next) => {
+
+  const sql = `
+    INSERT into "playlists" ("userId", "name")
+    VALUES ($1, $2)
+    RETURNING *;
+  `;
+
+  const params = [req.params.userid, 'New Playlist'];
+
+  db.query(sql, params)
+    .then(result => res.status(201).json(result.rows));
+
+});
+
+app.get('/api/routine/:id', (req, res, next) => {
+  const sql = `
+    SELECT *
+    FROM "playlists"
+    WHERE "playlistId" = $1;
+  `;
+
+  const params = [req.params.id];
+
+  db.query(sql, params)
+    .then(result => res.status(200).json(result.rows));
 });
 
 app.listen(process.env.PORT, () => {
