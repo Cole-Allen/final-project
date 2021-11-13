@@ -6,6 +6,13 @@ const jwt = require('jsonwebtoken');
 const ClientError = require('./client-error');
 const errorMiddleware = require('./error-middleware');
 const staticMiddleware = require('./static-middleware');
+const querystring = require('querystring');
+const cors = require('cors');
+const axios = require('axios');
+
+const clientId = process.env.SPOTIFY_CLIENT_ID;
+const clientSecret = process.env.SPOTIFY_CLIENT_SECRET;
+const redirectUri = 'http://localhost:3000/#settings';
 
 const db = new pg.Pool({
   connectionString: process.env.DATABASE_URL,
@@ -21,12 +28,30 @@ app.use(staticMiddleware);
 app.use(errorMiddleware);
 
 app.use(express.json());
+app.use(cors());
 
 app.use('/api/:usertoken', function (req, res, next) {
   const payload = jwt.decode(req.params.usertoken);
   req.payload = (payload);
   next();
 });
+
+app.use('/api/spotify', function (req, res, next) {
+
+  next();
+});
+
+const generateRandomString = function (length) {
+  let text = '';
+  const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+
+  for (let i = 0; i < length; i++) {
+    text += possible.charAt(Math.floor(Math.random() * possible.length));
+  }
+  return text;
+};
+
+const stateKey = 'spotify_auth_state';
 
 app.post('/api/auth/sign-up', (req, res, next) => {
   const { email, firstName, lastName, password } = req.body;
@@ -162,7 +187,8 @@ app.get('/api/:userid/routines', (req, res, next) => {
   const sql = `
     SELECT *
     FROM "playlists"
-    WHERE "userId" = $1;
+    WHERE "userId" = $1
+    ORDER BY "playlistId";
   `;
 
   const params = [req.payload.userId];
@@ -197,7 +223,80 @@ app.get('/api/routine/:id', (req, res, next) => {
   const params = [req.params.id];
 
   db.query(sql, params)
-    .then(result => res.status(200).json(result.rows));
+    .then(result => res.status(200).json(result.rows))
+    .catch(e => console.error('test', e));
+});
+
+app.put('/api/routine/:id', (req, res, next) => {
+  const { nameValue, id } = req.body;
+  const sql = `
+    UPDATE "playlists"
+    SET "name" = $1
+    WHERE "playlistId" = $2;
+  `;
+  const params = [nameValue, id];
+
+  db.query(sql, params)
+    .then(result => res.status(200));
+});
+
+app.get('/api/spotify/login', cors(), (req, res, next) => {
+  const state = generateRandomString(16);
+  res.cookie(stateKey, state);
+  const scope = 'user-read-private user-read-email playlist-read-private';
+
+  res.status(201).json({
+    url: ('https://accounts.spotify.com/authorize?' +
+      querystring.stringify({
+        response_type: 'code',
+        client_id: clientId,
+        scope: scope,
+        redirect_uri: redirectUri,
+        state: state,
+        show_dialog: true
+      }))
+  });
+
+});
+
+app.post('/api/spotify/code', (req, res, next) => {
+  const body = {
+    grant_type: 'authorization_code',
+    code: req.body.code,
+    redirect_uri: redirectUri,
+    client_id: clientId,
+    client_secret: clientSecret
+  };
+
+  const headers = {
+    headers: {
+      method: 'POST',
+      Accept: 'application/json',
+      'Content-Type': 'application/x-www-form-urlencoded'
+    },
+    Authorizartion: 'Basic ' + Buffer.from(clientId + ':' + clientSecret).toString('base64')
+  };
+
+  axios.post(
+    'https://accounts.spotify.com/api/token',
+    querystring.stringify(body),
+    headers)
+    .then(response => res.send(response.data))
+    .catch(err => console.error('test', err));
+});
+
+app.post('/api/spotify/request', (req, res, next) => {
+  const { token } = req.body;
+  axios.get(
+    'https://api.spotify.com/v1/me', {
+      headers: {
+        Authorization: 'Bearer ' + token
+      }
+    }
+
+  )
+    .then(result => console.log(result))
+    .catch(err => console.error(err));
 });
 
 app.listen(process.env.PORT, () => {

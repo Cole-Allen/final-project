@@ -220,12 +220,11 @@ td {
 }
 
 td div {
-  display: flex;
+  position: relative;
 }
 
 td input {
   margin: 0 auto;
-  display: inline;
 }
 
 tbody tr:hover {
@@ -234,6 +233,7 @@ tbody tr:hover {
 }
 
 .weight-input {
+  margin: 0 auto;
   font-size: 20px;
   padding: 3px;
   color: white;
@@ -248,12 +248,19 @@ tbody tr:hover {
 }
 
 .weight-button {
+  float: right;
   cursor: pointer;
   color: white;
   background: none;
   border: none;
   font-size: 20px;
 }
+
+/* .weight-input-buttons {
+  position: absolute;
+  right: 0;
+  top: 0;
+} */
 
 /* @media screen and (min-width: 768px) {
   .home {
@@ -367,8 +374,6 @@ tbody tr:hover {
 .back-button {
   font-size: 40px;
   margin: 20px;
-  position: absolute;
-  left: 0;
 }
 
 .routine {
@@ -376,6 +381,20 @@ tbody tr:hover {
   flex-flow: column wrap;
   align-items: center;
   justify-content: center;
+}
+
+.routine-back {
+  width: 100%;
+  position: absolute;
+  top: 0;
+  display: flex;
+  justify-content: space-between;
+}
+
+.routine-save {
+  font-size: 40px;
+  margin: 20px;
+  cursor: pointer;
 }
 
 .routine-head {

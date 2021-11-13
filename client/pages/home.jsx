@@ -196,20 +196,23 @@ export default class Home extends React.Component {
               className="weight-input"
               type="date"
               value={this.state.date}
+              size={this.state.date.length}
               onChange={this.handleDateChange}></input></div></td>
-            <td><div><input
+            <td><input
               className="weight-input"
               type="number"
               value={this.state.weight}
+              size={this.state.weight.length}
               onChange={this.handleWeightChange}></input>
-              <button className="weight-button"
-                onClick={this.handleSubmit} >
-                <i className="fas fa-save"></i>
-              </button >
-              <button className="weight-button"
-                onClick={this.handleDelete} >
-                <i className="fas fa-trash-alt"></i>
-              </button ></div></td>
+
+                <button className="weight-button"
+                  onClick={this.handleSubmit} >
+                  <i className="fas fa-save"></i>
+                </button >
+                <button className="weight-button"
+                  onClick={this.handleDelete} >
+                  <i className="fas fa-trash-alt"></i>
+                </button ></td>
           </tr>
         );
       } else {
@@ -236,6 +239,7 @@ export default class Home extends React.Component {
         <h1 className="home-title">Home</h1>
         <div className="nav-bar">
         <a href="#routines">Routines</a>
+        <a href="#settings">Settings</a>
         </div>
 
         {error}

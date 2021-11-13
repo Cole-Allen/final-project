@@ -65,7 +65,7 @@ export default class Routines extends React.Component {
             <img src='./images/smallerprofile.png'/>
           </div>
           <div className="routines-item-text">
-            This is a placeholder!
+            {this.state.data[i].name}
           </div>
 
         </div>
