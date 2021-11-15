@@ -13,6 +13,18 @@ export default class Routine extends React.Component {
     };
     this.loadData = this.loadData.bind(this);
     this.onChange = this.onChange.bind(this);
+    this.saveData = this.saveData.bind(this);
+  }
+
+  saveData() {
+    fetch(`/api/routine/${this.state.id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(this.state)
+    })
+      .then();
   }
 
   componentDidMount() {
@@ -48,6 +60,8 @@ export default class Routine extends React.Component {
           <a href="#routines" className="back-button">
             <i className="fas fa-caret-left"></i>
           </a>
+          <i className="routine-save fas fa-save" onClick={this.saveData}></i>
+
         </div>
         <div className="routine-head">
           <div className="routine-img">
@@ -56,11 +70,12 @@ export default class Routine extends React.Component {
           <div className="routine-name">
             <input
             value={this.state.nameValue}
+            size={this.state.nameValue.length}
             onChange={this.onChange}></input>
           </div>
           <div className="routine-spotify">
             <Pane title="Spotify playlist">
-              Spotify playlist goes here
+              <a href="#settings">Spootify</a>
             </Pane>
 
           </div>

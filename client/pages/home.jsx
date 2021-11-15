@@ -24,6 +24,7 @@ export default class Home extends React.Component {
     this.handleClickTR = this.handleClickTR.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
     this.loadData = this.loadData.bind(this);
+    this.handleGetSpotifyPlaylist = this.handleGetSpotifyPlaylist.bind(this);
   }
 
   componentDidMount() {
@@ -45,6 +46,27 @@ export default class Home extends React.Component {
         }
       })
       .catch(err => console.error(err));
+  }
+
+  handleGetSpotifyPlaylist() {
+    const token = window.localStorage.getItem('access_token');
+    const userid = window.localStorage.getItem('spot_name');
+    if (!token) {
+      console.log('no token');
+      return;
+    }
+    fetch(`/api/${token}/spotify/get/playlist`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        token: token,
+        userid: userid
+      })
+    })
+      .then(res => res.json())
+      .then(data => console.log(data));
   }
 
   handleWeightChange(e) {
@@ -170,7 +192,7 @@ export default class Home extends React.Component {
 
     const welcomePane = {
       title: `${new Intl.DateTimeFormat('en-US', { weekday: 'long', day: 'numeric' }).format(new Date())}`,
-      body: 'Hello! This is an empty pane that will be used to quickly get to a workout routine!'
+      body: <button onClick={this.handleGetSpotifyPlaylist}>Add a Spotify Playlist</button>
     };
 
     const weightTitleNE =
@@ -196,20 +218,23 @@ export default class Home extends React.Component {
               className="weight-input"
               type="date"
               value={this.state.date}
+              size={this.state.date.length}
               onChange={this.handleDateChange}></input></div></td>
-            <td><div><input
+            <td><input
               className="weight-input"
               type="number"
               value={this.state.weight}
+              size={this.state.weight.length}
               onChange={this.handleWeightChange}></input>
-              <button className="weight-button"
-                onClick={this.handleSubmit} >
-                <i className="fas fa-save"></i>
-              </button >
-              <button className="weight-button"
-                onClick={this.handleDelete} >
-                <i className="fas fa-trash-alt"></i>
-              </button ></div></td>
+
+                <button className="weight-button"
+                  onClick={this.handleSubmit} >
+                  <i className="fas fa-save"></i>
+                </button >
+                <button className="weight-button"
+                  onClick={this.handleDelete} >
+                  <i className="fas fa-trash-alt"></i>
+                </button ></td>
           </tr>
         );
       } else {
@@ -236,6 +261,7 @@ export default class Home extends React.Component {
         <h1 className="home-title">Home</h1>
         <div className="nav-bar">
         <a href="#routines">Routines</a>
+        <a href="#settings">Settings</a>
         </div>
 
         {error}

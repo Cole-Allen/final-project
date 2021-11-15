@@ -9,6 +9,7 @@ import NotFound from './pages/not-found';
 import parseRoute from './lib/parse-route';
 import AppContext from './lib/app-context';
 import decodeToken from './lib/decode-token';
+import Settings from './pages/connect-spotify';
 
 export default class App extends React.Component {
   constructor(props) {
@@ -60,6 +61,8 @@ export default class App extends React.Component {
         return <Routines/>;
       case 'routine' :
         return <Routine/>;
+      case 'settings' :
+        return <Settings/>;
       default:
         return <NotFound />;
     }
