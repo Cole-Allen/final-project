@@ -15,8 +15,12 @@ export default class Settings extends React.Component {
   }
 
   componentDidMount() {
-    this.getSpotifyCode();
-    this.requestSpotifyData();
+
+    if (window.localStorage.getItem('access_token')) { // Checks to see if user already has a token
+      this.requestSpotifyData();
+    } else {
+      this.getSpotifyCode(); // Checks to see if there is a code in search
+    }
   }
 
   handleSpotify() { // redirect to spotify authorize page
@@ -27,12 +31,17 @@ export default class Settings extends React.Component {
       });
   }
 
-  handleUnlinkSpotify() {
+  handleUnlinkSpotify() { // deletes tokens
     fetch(`/api/${window.localStorage.getItem('jwt')}/spotify/unlink`)
-      .then(res => this.setState({
-        username: null,
-        spotifyImage: null
-      }));
+      .then(res => {
+        window.localStorage.removeItem('access_token');
+        window.localStorage.removeItem('refresh_token');
+        window.localStorage.removeItem('spot_name');
+        this.setState({
+          username: null,
+          spotifyImage: null
+        });
+      });
   }
 
   getSpotifyCode() { // search url for search params given by spotify redirect
@@ -51,7 +60,7 @@ export default class Settings extends React.Component {
         .then(data => {
           window.localStorage.setItem('access_token', data.access_token); // Store tokens in local storage
           window.localStorage.setItem('refresh_token', data.refresh_token); // ***Will update to store in DB
-          this.requestSpotifyData();
+          this.requestSpotifyData(); // get user data after recieveing and storing tokens
           window.location.search = ''; // remove search from url for clarity
 
         });
@@ -73,8 +82,9 @@ export default class Settings extends React.Component {
           spotifyImage: data.images[0].url,
           loading: false
         });
+        console.log(data);
         const split = data.uri.split(':'); // get the user id for later use
-        window.localStorage.setItem('spot_name', split[2]);// store user id for later use
+        window.localStorage.setItem('spot_name', split[2]);// store user id for later use in api calls
       });
 
   }

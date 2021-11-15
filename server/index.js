@@ -206,7 +206,7 @@ app.put('/api/:userid/routines', (req, res, next) => {
     RETURNING *;
   `;
 
-  const params = [req.params.userid, 'New Playlist'];
+  const params = [req.params.userid, 'New Routine'];
 
   db.query(sql, params)
     .then(result => res.status(201).json(result.rows));
@@ -241,12 +241,12 @@ app.put('/api/routine/:id', (req, res, next) => {
 });
 
 /* ````````````````````````````````SPOTIFY```````````````````````````````````````` */
-
+// get url to spotify authpage that user will be redirected to
+// creating url through server keeps secret and client id safe
 app.get('/api/spotify/login', cors(), (req, res, next) => {
   const state = generateRandomString(16);
   res.cookie(stateKey, state);
   const scope = 'user-read-private user-read-email playlist-read-private';
-  // create url to spotify authpage that user will be redirected to
   res.status(201).json({
     url: ('https://accounts.spotify.com/authorize?' +
       querystring.stringify({
@@ -258,11 +258,10 @@ app.get('/api/spotify/login', cors(), (req, res, next) => {
         show_dialog: true
       }))
   });
-
 });
 
+// take code given after authorization to generate tokens
 app.post('/api/spotify/code', (req, res, next) => {
-  // take code given after authorization to generate tokens
   const body = {
     grant_type: 'authorization_code',
     code: req.body.code,
@@ -270,7 +269,6 @@ app.post('/api/spotify/code', (req, res, next) => {
     client_id: clientId,
     client_secret: clientSecret
   };
-
   const headers = {
     headers: {
       method: 'POST',
@@ -288,22 +286,22 @@ app.post('/api/spotify/code', (req, res, next) => {
     .catch(err => console.error('SpotifyCodeErr', err));
 });
 
-app.post('/api/:usertoken/spotify', (req, res, next) => {
-// put access_token and refresh_token into user db
-  const sql = `
-    UPDATE "users"
-    SET "spotifyAT" = $1,
-    "spotifyRT" = $2
-    WHERE "userId" = $3;
-  `;
-  const params = [req.body.data.access_token, req.body.data.refresh_token, req.payload.userId];
+// // put access_token and refresh_token into user db
+// app.post('/api/:usertoken/spotify', (req, res, next) => {
+//   const sql = `
+//     UPDATE "users"
+//     SET "spotifyAT" = $1,
+//     "spotifyRT" = $2
+//     WHERE "userId" = $3;
+//   `;
+//   const params = [req.body.data.access_token, req.body.data.refresh_token, req.payload.userId];
 
-  db.query(sql, params)
-    .then(result => res.status(200).json({ updates: 'db' }));
-});
+//   db.query(sql, params)
+//     .then(result => res.status(200).json({ updates: 'db' }));
+// });
 
+// Use tokens to get access to users information
 app.post('/api/:usertoken/spotify/request', (req, res, next) => {
-  // Use tokens to get access to users information
   axios.get(
     'https://api.spotify.com/v1/me', {
       headers: {
@@ -319,6 +317,7 @@ app.post('/api/:usertoken/spotify/request', (req, res, next) => {
 
 });
 
+// unlink spotify from db (pointless rn)
 app.get('/api/:usertoken/spotify/unlink', (req, res, next) => {
   const sql = `
     UPDATE "users"
@@ -333,11 +332,9 @@ app.get('/api/:usertoken/spotify/unlink', (req, res, next) => {
     .then(res.status(200).json({ del: 'del' }));
 });
 
+// use tokens and user id to access their created playlists
 app.post('/api/:usertoken/spotify/get/playlist', (req, res, next) => {
-
-  // use tokens and user id to access their created playlists
   const { userid, token } = req.body;
-
   axios.get(
     `https://api.spotify.com/v1/users/${userid}/playlists`, {
       headers: {

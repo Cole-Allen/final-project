@@ -51,7 +51,11 @@ export default class Home extends React.Component {
   handleGetSpotifyPlaylist() {
     const token = window.localStorage.getItem('access_token');
     const userid = window.localStorage.getItem('spot_name');
-    fetch('/api/spotify/get/playlist', {
+    if (!token) {
+      console.log('no token');
+      return;
+    }
+    fetch(`/api/${token}/spotify/get/playlist`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
