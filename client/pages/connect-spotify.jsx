@@ -1,34 +1,46 @@
 import React from 'react';
 import AppContext from '../lib/app-context';
-import Redirect from '../lib/redirect';
-import Pane from '../component/pane';
 
 export default class Settings extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      loading: true
+    };
 
     this.handleSpotify = this.handleSpotify.bind(this);
     this.getSpotifyCode = this.getSpotifyCode.bind(this);
     this.requestSpotifyData = this.requestSpotifyData.bind(this);
+    this.handleUnlinkSpotify = this.handleUnlinkSpotify.bind(this);
   }
 
   componentDidMount() {
     this.getSpotifyCode();
+    this.requestSpotifyData();
   }
 
-  handleSpotify() {
+  handleSpotify() { // redirect to spotify authorize page
     fetch('/api/spotify/login')
       .then(res => res.json())
-      .then(data => { window.location = new URL(data.url); });
+      .then(data => {
+        window.location = new URL(data.url);
+      });
   }
 
-  getSpotifyCode() {
+  handleUnlinkSpotify() {
+    fetch(`/api/${window.localStorage.getItem('jwt')}/spotify/unlink`)
+      .then(res => this.setState({
+        username: null,
+        spotifyImage: null
+      }));
+  }
+
+  getSpotifyCode() { // search url for search params given by spotify redirect
     const qs = window.location.search;
     if (qs.length > 0) {
       const urlParams = new URLSearchParams(qs);
       const code = urlParams.get('code');
-      fetch('/api/spotify/code', {
+      fetch('/api/spotify/code', { // get access and refresh tokens using search params code
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -37,37 +49,65 @@ export default class Settings extends React.Component {
       })
         .then(res => res.json())
         .then(data => {
-          if (data.access_token) {
-            localStorage.setItem('access_token', data.access_token);
-          }
-          if (data.refresh_token) {
-            localStorage.setItem('refresh_token', data.refresh_token);
-          }
-          window.location.search = '';
+          window.localStorage.setItem('access_token', data.access_token); // Store tokens in local storage
+          window.localStorage.setItem('refresh_token', data.refresh_token); // ***Will update to store in DB
+          this.requestSpotifyData();
+          window.location.search = ''; // remove search from url for clarity
+
         });
     }
   }
 
-  requestSpotifyData() {
-    const token = window.localStorage.getItem('access_token');
-    console.log(token);
-    fetch('/api/spotify/request', {
+  requestSpotifyData() { // get spotify data using access_token
+    fetch(`/api/${window.localStorage.getItem('jwt')}/spotify/request`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ token: token })
+      body: JSON.stringify({ token: window.localStorage.getItem('access_token') })
     })
-      .then(res => console.log(res));
+      .then(res => res.json())
+      .then(data => {
+        this.setState({
+          username: data.display_name, // assign displayname to username so it welcomes user
+          spotifyImage: data.images[0].url,
+          loading: false
+        });
+        const split = data.uri.split(':'); // get the user id for later use
+        window.localStorage.setItem('spot_name', split[2]);// store user id for later use
+      });
+
   }
 
   render() {
+    // if (this.state.loading) {
+    //   return (
+    //     <h1>Loading</h1>
+    //   );
+    // }
+    const signedIn = this.state.username
+      ? <div className="settings-spotify-signed-in">
+          <img src={this.state.spotifyImage}/>
+          <div>
+          Signed in as {this.state.username}
+          </div>
+        <i onClick={this.handleUnlinkSpotify} className="fas fa-unlink"></i>
+        </div>
+      : <button onClick={this.handleSpotify}>
+          Sign in with Spotify
+        </button>;
     return (
-      <div>
+      <div className="settings-page">
+        <div className="routine-back">
+          <a href="#home" className="back-button">
+            <i className="fas fa-caret-left"></i>
+          </a>
+        </div>
         <h1>Settings</h1>
-        <button onClick={this.handleSpotify}>Sign in with Spotify</button>
-        <button onClick={this.requestSpotifyData}>Test</button>
+        {signedIn}
       </div>
     );
   }
 }
+
+Settings.contextType = AppContext;

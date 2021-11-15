@@ -14,7 +14,6 @@ export default class Routine extends React.Component {
     this.loadData = this.loadData.bind(this);
     this.onChange = this.onChange.bind(this);
     this.saveData = this.saveData.bind(this);
-    this.handleSpotify = this.handleSpotify.bind(this);
   }
 
   saveData() {

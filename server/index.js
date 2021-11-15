@@ -240,11 +240,13 @@ app.put('/api/routine/:id', (req, res, next) => {
     .then(result => res.status(200));
 });
 
+/* ````````````````````````````````SPOTIFY```````````````````````````````````````` */
+
 app.get('/api/spotify/login', cors(), (req, res, next) => {
   const state = generateRandomString(16);
   res.cookie(stateKey, state);
   const scope = 'user-read-private user-read-email playlist-read-private';
-
+  // create url to spotify authpage that user will be redirected to
   res.status(201).json({
     url: ('https://accounts.spotify.com/authorize?' +
       querystring.stringify({
@@ -260,6 +262,7 @@ app.get('/api/spotify/login', cors(), (req, res, next) => {
 });
 
 app.post('/api/spotify/code', (req, res, next) => {
+  // take code given after authorization to generate tokens
   const body = {
     grant_type: 'authorization_code',
     code: req.body.code,
@@ -282,21 +285,71 @@ app.post('/api/spotify/code', (req, res, next) => {
     querystring.stringify(body),
     headers)
     .then(response => res.send(response.data))
-    .catch(err => console.error('test', err));
+    .catch(err => console.error('SpotifyCodeErr', err));
 });
 
-app.post('/api/spotify/request', (req, res, next) => {
-  const { token } = req.body;
+app.post('/api/:usertoken/spotify', (req, res, next) => {
+// put access_token and refresh_token into user db
+  const sql = `
+    UPDATE "users"
+    SET "spotifyAT" = $1,
+    "spotifyRT" = $2
+    WHERE "userId" = $3;
+  `;
+  const params = [req.body.data.access_token, req.body.data.refresh_token, req.payload.userId];
+
+  db.query(sql, params)
+    .then(result => res.status(200).json({ updates: 'db' }));
+});
+
+app.post('/api/:usertoken/spotify/request', (req, res, next) => {
+  // Use tokens to get access to users information
   axios.get(
     'https://api.spotify.com/v1/me', {
       headers: {
-        Authorization: 'Bearer ' + token
+        Authorization: 'Bearer ' + req.body.token
       }
     }
-
   )
-    .then(result => console.log(result))
-    .catch(err => console.error(err));
+    .then(result => {
+      // console.log(result.data);
+      res.json(result.data);
+    })
+    .catch(err => console.error('this error', err));
+
+});
+
+app.get('/api/:usertoken/spotify/unlink', (req, res, next) => {
+  const sql = `
+    UPDATE "users"
+    SET "spotifyAT" = $1,
+    "spotifyRT" = $2
+    WHERE "userId" = $3;
+  `;
+
+  const params = ['', '', req.payload.userId];
+
+  db.query(sql, params)
+    .then(res.status(200).json({ del: 'del' }));
+});
+
+app.post('/api/:usertoken/spotify/get/playlist', (req, res, next) => {
+
+  // use tokens and user id to access their created playlists
+  const { userid, token } = req.body;
+
+  axios.get(
+    `https://api.spotify.com/v1/users/${userid}/playlists`, {
+      headers: {
+        Authorization: 'Bearer ' + token,
+        'Content-Type': 'application/json'
+      }
+    }
+  )
+    .then(result => {
+      res.json(result.data);
+    })
+    .catch(err => console.error('err', err));
 });
 
 app.listen(process.env.PORT, () => {

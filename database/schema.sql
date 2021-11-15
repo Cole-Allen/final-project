@@ -12,6 +12,8 @@ CREATE TABLE "users" (
   "firstName" TEXT NOT NULL,
   "lastName" TEXT NOT NULL,
   "password" TEXT NOT NULL,
+  "spotifyAT" TEXT,
+  "spotifyRT" TEXT,
   "email" TEXT NOT NULL UNIQUE,
   "createdAt" TIMESTAMP NOT NULL DEFAULT NOW(),
   CONSTRAINT "users_pk" PRIMARY KEY ("userId")

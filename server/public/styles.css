@@ -433,3 +433,47 @@ tbody tr:hover {
 .routine-spotify {
   width: 60%;
 }
+
+.settings-page,
+.settings-spotify-signed-in {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.settings-spotify-signed-in img {
+  width: 250px;
+  margin: 20px;
+  border-radius: 5px;
+  border: 1px solid white;
+}
+
+.settings-spotify-signed-in i {
+  cursor: pointer;
+  color: rgb(255 255 255);
+  font-size: 20px;
+  padding: 10px 20px;
+  background: rgb(255 50 50);
+  border-radius: 50px;
+  margin: 10px;
+  border: 1px solid white;
+}
+
+.settings-spotify-signed-in i:hover {
+  background: rgb(255 70 70);
+}
+
+.settings-page button {
+  cursor: pointer;
+  font-family: Comfortaa, sans-serif;
+  font-weight: 700;
+  background: #1db954;
+  color: white;
+  border: 1px solid white;
+  border-radius: 5px;
+  padding: 20px 40px;
+}
+
+.settings-page button:hover {
+  background: #1ec558;
+}

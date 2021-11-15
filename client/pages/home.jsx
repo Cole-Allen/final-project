@@ -24,6 +24,7 @@ export default class Home extends React.Component {
     this.handleClickTR = this.handleClickTR.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
     this.loadData = this.loadData.bind(this);
+    this.handleGetSpotifyPlaylist = this.handleGetSpotifyPlaylist.bind(this);
   }
 
   componentDidMount() {
@@ -45,6 +46,23 @@ export default class Home extends React.Component {
         }
       })
       .catch(err => console.error(err));
+  }
+
+  handleGetSpotifyPlaylist() {
+    const token = window.localStorage.getItem('access_token');
+    const userid = window.localStorage.getItem('spot_name');
+    fetch('/api/spotify/get/playlist', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        token: token,
+        userid: userid
+      })
+    })
+      .then(res => res.json())
+      .then(data => console.log(data));
   }
 
   handleWeightChange(e) {
@@ -170,7 +188,7 @@ export default class Home extends React.Component {
 
     const welcomePane = {
       title: `${new Intl.DateTimeFormat('en-US', { weekday: 'long', day: 'numeric' }).format(new Date())}`,
-      body: 'Hello! This is an empty pane that will be used to quickly get to a workout routine!'
+      body: <button onClick={this.handleGetSpotifyPlaylist}>Add a Spotify Playlist</button>
     };
 
     const weightTitleNE =
