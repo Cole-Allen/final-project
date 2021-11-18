@@ -64,7 +64,7 @@ export default class App extends React.Component {
       case 'settings' :
         return <Settings/>;
       case '' :
-        this.location.hash = 'home';
+        window.location.hash = 'home';
         break;
       default:
         return <NotFound />;
