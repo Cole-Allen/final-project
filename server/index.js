@@ -12,7 +12,7 @@ const axios = require('axios');
 
 const clientId = process.env.SPOTIFY_CLIENT_ID;
 const clientSecret = process.env.SPOTIFY_CLIENT_SECRET;
-const redirectUri = 'http://localhost:3000/#settings';
+const redirectUri = 'https://final-project-routine.herokuapp.com/#settings';
 
 const db = new pg.Pool({
   connectionString: process.env.DATABASE_URL,
