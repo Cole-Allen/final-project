@@ -9,10 +9,11 @@ const staticMiddleware = require('./static-middleware');
 const querystring = require('querystring');
 const cors = require('cors');
 const axios = require('axios');
+const path = require('path');
 
 const clientId = process.env.SPOTIFY_CLIENT_ID;
 const clientSecret = process.env.SPOTIFY_CLIENT_SECRET;
-const redirectUri = 'https://final-project-routine.herokuapp.com/#settings';
+const redirectUri = 'http://localhost:3000/settings';
 
 const db = new pg.Pool({
   connectionString: process.env.DATABASE_URL,
@@ -347,6 +348,12 @@ app.post('/api/:usertoken/spotify/get/playlist', (req, res, next) => {
       res.json(result.data);
     })
     .catch(err => console.error('err', err));
+});
+
+app.use(function (req, res, next) {
+  res.sendFile('/index.html', {
+    root: path.join(__dirname, 'public')
+  });
 });
 
 app.listen(process.env.PORT, () => {

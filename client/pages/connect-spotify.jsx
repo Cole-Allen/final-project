@@ -1,11 +1,12 @@
 import React from 'react';
 import AppContext from '../lib/app-context';
+import { Link } from 'react-router-dom';
 
 export default class Settings extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      loading: true
+      signedIn: false
     };
 
     this.handleSpotify = this.handleSpotify.bind(this);
@@ -15,7 +16,6 @@ export default class Settings extends React.Component {
   }
 
   componentDidMount() {
-
     if (window.localStorage.getItem('access_token')) { // Checks to see if user already has a token
       this.requestSpotifyData();
     } else {
@@ -39,13 +39,15 @@ export default class Settings extends React.Component {
         window.localStorage.removeItem('spot_name');
         this.setState({
           username: null,
-          spotifyImage: null
+          spotifyImage: null,
+          signedIn: false
         });
       });
   }
 
   getSpotifyCode() { // search url for search params given by spotify redirect
     const qs = window.location.search;
+
     if (qs.length > 0) {
       const urlParams = new URLSearchParams(qs);
       const code = urlParams.get('code');
@@ -62,7 +64,6 @@ export default class Settings extends React.Component {
           window.localStorage.setItem('refresh_token', data.refresh_token); // ***Will update to store in DB
           this.requestSpotifyData(); // get user data after recieveing and storing tokens
           window.location.search = ''; // remove search from url for clarity
-
         });
     }
   }
@@ -80,7 +81,7 @@ export default class Settings extends React.Component {
         this.setState({
           username: data.display_name, // assign displayname to username so it welcomes user
           spotifyImage: data.images[0].url,
-          loading: false
+          signedIn: true
         });
         console.log(data);
         const split = data.uri.split(':'); // get the user id for later use
@@ -90,12 +91,9 @@ export default class Settings extends React.Component {
   }
 
   render() {
-    // if (this.state.loading) {
-    //   return (
-    //     <h1>Loading</h1>
-    //   );
-    // }
-    const signedIn = this.state.username
+    console.log(this.state.signedIn);
+    this.getSpotifyCode();
+    const signedIn = this.state.signedIn
       ? <div className="settings-spotify-signed-in">
           <img src={this.state.spotifyImage}/>
           <div>
@@ -109,9 +107,9 @@ export default class Settings extends React.Component {
     return (
       <div className="settings-page">
         <div className="routine-back">
-          <a href="#home" className="back-button">
+          <Link to="/home" className="back-button">
             <i className="fas fa-caret-left"></i>
-          </a>
+          </Link>
         </div>
         <h1>Settings</h1>
         {signedIn}

@@ -15,11 +15,6 @@ export default class Pane extends React.Component {
           <div className="pane-unique">
             {this.props.unique}
           </div>
-          <div className="icons">
-            <a href={this.props.settings}>
-              <i className="fas fa-cog" ></i>
-            </a>
-          </div>
 
         </div>
           {this.props.children}

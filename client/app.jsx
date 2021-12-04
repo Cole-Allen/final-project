@@ -10,6 +10,8 @@ import parseRoute from './lib/parse-route';
 import AppContext from './lib/app-context';
 import decodeToken from './lib/decode-token';
 import Settings from './pages/connect-spotify';
+import Test from './pages/test';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 export default class App extends React.Component {
   constructor(props) {
@@ -44,40 +46,25 @@ export default class App extends React.Component {
     this.setState({ user: null });
   }
 
-  renderPage() {
-
-    const { path } = this.state.route;
-
-    switch (path) {
-      case 'home':
-        return <Home onSignOut={this.handleSignOut} />;
-      case 'login':
-        return <Login onSignIn={this.handleSignIn} />;
-      case 'signup':
-        return <SignUp />;
-      case 'week':
-        return <Week />;
-      case 'routines':
-        return <Routines/>;
-      case 'routine' :
-        return <Routine/>;
-      case 'settings' :
-        return <Settings/>;
-      case '' :
-        window.location.hash = 'home';
-        break;
-      default:
-        return <NotFound />;
-    }
-  }
-
   render() {
     const { user, route } = this.state;
     const { handleSignIn, handleSignOut } = this;
     const contextValue = { user, route, handleSignIn, handleSignOut };
     return (
       <AppContext.Provider value={contextValue}>
-        {this.renderPage()}
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Test/>} />
+            <Route path="/login" element={<Login onSignIn={this.handleSignIn}/>} />
+            <Route path="/signup" element={<SignUp />} />
+            <Route path='/home' element={<Home onSignOut={this.handleSignOut}/>} />
+            <Route path='/settings' element={<Settings/>} />
+            <Route path="/*"
+            element = {
+              <h1>404</h1>
+            } />
+          </Routes>
+        </BrowserRouter>
       </AppContext.Provider>
     );
   }

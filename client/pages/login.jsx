@@ -1,6 +1,7 @@
 import React from 'react';
 import AppContext from '../lib/app-context';
 import Redirect from '../lib/redirect';
+import { Link } from 'react-router-dom';
 
 export default class Login extends React.Component {
   constructor(props) {
@@ -36,7 +37,7 @@ export default class Login extends React.Component {
       })
       .then(result => {
         this.props.onSignIn(result);
-        window.location.hash = 'home';
+        window.location.pathname = 'home';
       });
   }
 
@@ -52,7 +53,7 @@ export default class Login extends React.Component {
 
     const { user } = this.context;
     if (user) {
-      return <Redirect to="#home"/>;
+      window.location.pathname = 'home';
     }
     let err;
     if (this.state.error) {
@@ -63,6 +64,7 @@ export default class Login extends React.Component {
     return (
       <div className="login-signup">
         <h1>Login</h1>
+        {err}
         <form method="post">
           <label
           className="auth-label"
@@ -90,10 +92,11 @@ export default class Login extends React.Component {
             onChange={this.handleChange}
             required></input>
           </label>
-          {err}
+
           <button className="auth-submit" onClick={this.handleSubmit} type="submit">Log In</button>
         </form>
-        <a href="#signup">Don&apos;t have an account? Sign-up here!</a>
+
+        <Link to="/signup">Don&apos;t have an account? Sign-up here!</Link>
       </div>
     );
   }

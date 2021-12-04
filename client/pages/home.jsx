@@ -2,6 +2,7 @@ import React from 'react';
 import AppContext from '../lib/app-context';
 import Redirect from '../lib/redirect';
 import Pane from '../component/pane';
+import { Link } from 'react-router-dom';
 
 export default class Home extends React.Component {
 
@@ -183,7 +184,7 @@ export default class Home extends React.Component {
 
   render() {
     if (!window.localStorage.getItem('jwt')) {
-      return <Redirect to="#login" />;
+      window.location.pathname = 'login';
     }
 
     if (this.state.loading) {
@@ -260,8 +261,8 @@ export default class Home extends React.Component {
       <div className="home">
         <h1 className="home-title">Home</h1>
         <div className="nav-bar">
-        <a href="#routines">Routines</a>
-        <a href="#settings">Settings</a>
+          <Link to="/routines">Routines</Link>
+          <Link to="/settings">Settings</Link>
         </div>
 
         {error}
@@ -295,7 +296,7 @@ export default class Home extends React.Component {
           </Pane>
         </div>
         <div className="logout">
-          <a href="#login" onClick={this.props.onSignOut}>Log Out</a>
+          <Link to="/login" onClick={this.props.onSignOut}>Log Out</Link>
         </div>
 
       </div>

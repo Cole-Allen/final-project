@@ -1,6 +1,7 @@
 import React from 'react';
 import AppContext from '../lib/app-context';
 import Redirect from '../lib/redirect';
+import { Link } from 'react-router-dom';
 
 export default class SignUp extends React.Component {
   constructor(props) {
@@ -164,7 +165,7 @@ export default class SignUp extends React.Component {
           </div>
 
         </form>
-        <a href="#login">Switch to login</a>
+        <Link to="/login">Switch to login</Link>
       </div>
     );
   }
